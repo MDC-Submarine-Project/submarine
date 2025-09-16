@@ -2,11 +2,17 @@ plugins {
     id 'java'
 }
 
+
 group = 'dev.senj.submarine'
 version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+java {
+    sourceCompatibility = 21
+    targetCompatibility = 21
 }
 
 dependencies {
