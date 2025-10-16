@@ -30,3 +30,84 @@ tasks.register('startAll') {
     description = 'Runs both Client and Server applications (sequentially).'
     dependsOn(':client:runClient', ':server:runServer')
 }
+
+// Concurrent runner that starts both apps in separate OS processes and multiplexes output
+// Usage: gradlew startAllConcurrent
+// This ensures both apps' outputs are visible concurrently in the same console with prefixes.
+tasks.register('startAllConcurrent') {
+    group = 'application'
+    description = 'Runs Client and Server concurrently with multiplexed console output.'
+
+    // Ensure classes and runtime classpaths are ready
+    dependsOn(':client:classes', ':server:classes')
+
+    doLast {
+        def clientProject = project(':client')
+        def serverProject = project(':server')
+
+        def clientMain = 'dev.senj.client.ClientMain'
+        def serverMain = 'dev.senj.server.ServerMain'
+
+        // Build runtime classpaths
+        def clientCp = clientProject.sourceSets.main.runtimeClasspath.asPath
+        def serverCp = serverProject.sourceSets.main.runtimeClasspath.asPath
+
+        // Resolve Java executable in a cross-platform way
+        def javaHome = System.getProperty('java.home')
+        def javaExe = new File(javaHome, "bin/${org.gradle.internal.os.OperatingSystem.current().isWindows() ? 'java.exe' : 'java'}").absolutePath
+
+        // Helper to start a process and stream its output with prefix
+        def startProcess = { String name, List<String> cmd ->
+            def pb = new ProcessBuilder(cmd)
+            pb.redirectErrorStream(true)
+            def proc = pb.start()
+            def reader = new BufferedReader(new InputStreamReader(proc.getInputStream()))
+            def thread = new Thread({
+                String line
+                while ((line = reader.readLine()) != null) {
+                    println("${name}: ${line}")
+                }
+            } as Runnable)
+            thread.setDaemon(true)
+            thread.start()
+            return [process: proc, thread: thread]
+        }
+
+        // Commands for client and server
+        def clientCmd = [javaExe, '-cp', clientCp, clientMain]
+        def serverCmd = [javaExe, '-cp', serverCp, serverMain]
+
+        println 'Starting Client and Server...'
+        def client = startProcess('client', clientCmd)
+        def server = startProcess('server', serverCmd)
+
+        // Add shutdown hook to terminate children
+        def hook = new Thread({
+            try { client.process.destroy() } catch (ignore) {}
+            try { server.process.destroy() } catch (ignore) {}
+        } as Runnable)
+        Runtime.runtime.addShutdownHook(hook)
+
+        // Wait indefinitely while children run; exit when either stops
+        def waitThread = new Thread({
+            int exit1 = client.process.waitFor()
+            println "Client process exited with code ${exit1}"
+            try { server.process.destroy() } catch (ignore) {}
+        } as Runnable)
+        waitThread.start()
+
+        def waitThread2 = new Thread({
+            int exit2 = server.process.waitFor()
+            println "Server process exited with code ${exit2}"
+            try { client.process.destroy() } catch (ignore) {}
+        } as Runnable)
+        waitThread2.start()
+
+        // Block the Gradle task so console stays attached until user stops it
+        waitThread.join()
+        waitThread2.join()
+
+        // Remove shutdown hook if still present
+        try { Runtime.runtime.removeShutdownHook(hook) } catch (IllegalStateException ignored) {}
+    }
+}
