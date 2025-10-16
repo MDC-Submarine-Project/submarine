@@ -1,25 +1,24 @@
-plugins {
-    id 'java'
-}
-
-
 group = 'dev.senj.submarine'
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply plugin: 'java'
 
-java {
-    sourceCompatibility = 21
-    targetCompatibility = 21
-}
+    repositories {
+        mavenCentral()
+    }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
+    java {
+        sourceCompatibility = 21
+        targetCompatibility = 21
+    }
 
-test {
-    useJUnitPlatform()
+    dependencies {
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
 }
