@@ -22,3 +22,11 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+// Root-level task to start both client and server applications
+// Note: These run sequentially by default. Use --parallel if appropriate for your environment.
+tasks.register('startAll') {
+    group = 'application'
+    description = 'Runs both Client and Server applications (sequentially).'
+    dependsOn(':client:runClient', ':server:runServer')
+}

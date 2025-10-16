@@ -5,3 +5,11 @@ plugins {
 dependencies {
     implementation project(':common')
 }
+
+// Task to run the client application
+tasks.register('runClient', JavaExec) {
+    group = 'application'
+    description = 'Runs the Client application.'
+    mainClass = 'dev.senj.client.ClientMain'
+    classpath = sourceSets.main.runtimeClasspath
+}
