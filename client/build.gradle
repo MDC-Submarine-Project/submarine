@@ -12,4 +12,5 @@ tasks.register('runClient', JavaExec) {
     description = 'Runs the Client application.'
     mainClass = 'dev.senj.client.ClientMain'
     classpath = sourceSets.main.runtimeClasspath
+    dependsOn(':common:classes')
 }

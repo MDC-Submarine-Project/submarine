@@ -39,7 +39,7 @@ tasks.register('startAllConcurrent') {
     description = 'Runs Client and Server concurrently with multiplexed console output.'
 
     // Ensure classes and runtime classpaths are ready
-    dependsOn(':client:classes', ':server:classes')
+    dependsOn(':client:classes', ':server:classes', ':common:classes')
 
     doLast {
         def clientProject = project(':client')
@@ -49,8 +49,9 @@ tasks.register('startAllConcurrent') {
         def serverMain = 'dev.senj.server.ServerMain'
 
         // Build runtime classpaths
-        def clientCp = clientProject.sourceSets.main.runtimeClasspath.asPath
-        def serverCp = serverProject.sourceSets.main.runtimeClasspath.asPath
+        def commonProject = project(':common')
+        def clientCp = clientProject.sourceSets.main.runtimeClasspath.asPath + File.pathSeparator + commonProject.sourceSets.main.output.classesDirs.asPath
+        def serverCp = serverProject.sourceSets.main.runtimeClasspath.asPath + File.pathSeparator + commonProject.sourceSets.main.output.classesDirs.asPath
 
         // Resolve Java executable in a cross-platform way
         def javaHome = System.getProperty('java.home')

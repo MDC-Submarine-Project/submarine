@@ -12,4 +12,5 @@ tasks.register('runServer', JavaExec) {
     description = 'Runs the Server application.'
     mainClass = 'dev.senj.server.ServerMain'
     classpath = sourceSets.main.runtimeClasspath
+    dependsOn(':common:classes')
 }
