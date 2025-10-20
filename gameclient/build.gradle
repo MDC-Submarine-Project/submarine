@@ -1,0 +1,89 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        classpath group: 'org.mini2Dx', name: 'parcl', version: '1.8.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'edu.sc.seis.launch4j' version '3.0.6'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+group 'dev.sebastianb'
+version '1.0.2-SNAPSHOT'
+
+launch4j {
+    mainClassName = 'dev.sebastianb.boids.Main'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://s01.oss.sonatype.org" }
+    maven { url 'https://jitpack.io' }
+}
+
+ext {
+    gdxVersion = '1.12.0'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': 'dev.sebastianb.boids.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation ("com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion") {
+        exclude group: "org.jcraft", module: "jorbis"
+    }
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+
+    implementation 'com.github.mini2Dx:parcl:1.8.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Task to run the game client
+task runGame(type: JavaExec) {
+    description = 'Runs the BOIDS game client'
+    group = 'application'
+
+    mainClass = 'dev.sebastianb.boids.Main'
+    classpath = sourceSets.main.runtimeClasspath
+
+    // Pass JVM arguments if needed
+    jvmArgs = ['-Xms512m', '-Xmx1g']
+
+    // Enable assertions
+    enableAssertions = true
+
+    // Standard input/output configuration
+    standardInput = System.in
+    standardOutput = System.out
+}

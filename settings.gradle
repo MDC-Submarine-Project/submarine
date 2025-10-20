@@ -1,2 +1,2 @@
 rootProject.name = 'submarine'
-include 'common', 'client', 'server'
+include 'common', 'client', 'server', 'gameclient'
