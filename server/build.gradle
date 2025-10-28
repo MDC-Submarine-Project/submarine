@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation project(':common')
+    implementation 'com.github.crykn:kryonet:2.22.8'
 }
 
 // Task to run the server application
