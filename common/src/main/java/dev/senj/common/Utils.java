@@ -7,4 +7,9 @@ public class Utils {
         }
         return "Hello, " + name + " from common!";
     }
+
+    public static void setupClosing(String path) {
+        System.out.println("Closing " + path + "...");
+        System.exit(0);
+    }
 }

@@ -1,8 +1,10 @@
 package dev.senj.common;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +21,10 @@ public class ObjectListener {
 
     private volatile boolean running = false;
     private Thread listenerThread;
+
+    // Network-related fields
+    private NetworkManager networkManager;
+    private boolean isNetworkInitialized = false;
 
     // source to destination object hash
     public static class DestinationMapping implements Comparable<DestinationMapping> {
@@ -51,17 +57,123 @@ public class ObjectListener {
 
     /**
      * Callback when an object's observed state changed since the last check.
-     * Override or replace usage as needed by the caller.
+     * Sends the object over the network if network is initialized.
      */
     public void onObjectChanged(DestinationMapping mapping, Object value) {
-        // Minimal default behavior: print a trace line. Replace with real propagation.
         System.out.println("[ObjectListener] Change detected for mapping src=" + mapping.sourceHash + " -> dst=" + mapping.destinationHash);
+
+        if (isNetworkInitialized) {
+            try {
+                // Convert the object to bytes
+                byte[] data = toBytes(value);
+
+                // Send the bytes over the network
+                networkManager.transmit(data);
+                System.out.println("[ObjectListener] Sent object over network: " + value);
+            } catch (IOException e) {
+                System.err.println("[ObjectListener] Error sending object over network: " + e.getMessage());
+            }
+        }
     }
 
-    // Kept for backward compatibility; calls the new overload without details
-    public void onObjectChanged() {
-        // No-op default
+    /**
+     * Initializes the network as a server.
+     * @param port The port to listen on
+     * @throws IOException If an I/O error occurs
+     */
+    public void initializeAsServer(int port) throws IOException {
+        if (isNetworkInitialized) return;
+
+        networkManager = NetworkManager.getInstance();
+        networkManager.startServer(port, this::handleReceivedData);
+        isNetworkInitialized = true;
+        System.out.println("[ObjectListener] Initialized as server on port " + port);
     }
+
+    /**
+     * Initializes the network as a client.
+     * @param host The server host
+     * @param port The server port
+     * @throws IOException If an I/O error occurs
+     */
+    public void initializeAsClient(String host, int port) throws IOException {
+        if (isNetworkInitialized) return;
+
+        networkManager = NetworkManager.getInstance();
+        networkManager.connectToServer(host, port, this::handleReceivedData);
+        isNetworkInitialized = true;
+        System.out.println("[ObjectListener] Initialized as client connecting to " + host + ":" + port);
+    }
+
+    /**
+     * Handles data received from the network.
+     * @param data The received data
+     */
+    private void handleReceivedData(byte[] data) {
+        try {
+            // Convert the bytes back to an object
+            Object obj = fromBytes(data);
+            if (obj != null) {
+                System.out.println("[ObjectListener] Received object from network: " + obj);
+
+                // Find a matching object in our mapping
+                for (var entry : objectMapping.entrySet()) {
+                    Object localObj = entry.getValue();
+
+                    // If the objects are of the same class, update the local object with the received one
+                    if (localObj != null && localObj.getClass().equals(obj.getClass())) {
+                        try {
+                            // For Position objects, directly update the fields
+                            if (localObj instanceof Position && obj instanceof Position) {
+                                Position localPos = (Position) localObj;
+                                Position receivedPos = (Position) obj;
+
+                                // Update the local position fields
+                                localPos.x = receivedPos.x;
+                                localPos.y = receivedPos.y;
+                                localPos.z = receivedPos.z;
+
+                                System.out.println("[ObjectListener] Updated local position: " + localPos);
+                            } else {
+                                // For other object types, use field-by-field copying or other appropriate methods
+                                // This is a generic approach that might not work for all object types
+                                // Force the object bytes over
+                                byte[] objBytes = toBytes(obj);
+                                Object newObj = fromBytes(objBytes);
+                                objectMapping.put(entry.getKey(), newObj);
+                                System.out.println("[ObjectListener] Replaced local object with received object: " + newObj);
+                            }
+
+                            // Update the signature to prevent sending back the change we just received
+                            lastStateSignatures.put(entry.getKey(), computeStateSignature(localObj));
+                            break;
+                        } catch (Exception e) {
+                            System.err.println("[ObjectListener] Error updating object: " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("[ObjectListener] Error processing received data: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Converts bytes back to an object.
+     * @param data The bytes to convert
+     * @return The deserialized object
+     */
+    private Object fromBytes(byte[] data) throws IOException, ClassNotFoundException {
+        if (data == null || data.length == 0) return null;
+
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(data);
+             ObjectInputStream ois = new ObjectInputStream(bais)) {
+            return ois.readObject();
+        }
+    }
+
 
     /**
      * Starts a background thread that periodically checks for changes in the registered objects' observable state.
@@ -83,8 +195,6 @@ public class ObjectListener {
                         if (lastSig != null && lastSig != signature) {
                             // A change was detected for this specific object since the previous check
                             onObjectChanged(key, value);
-                            // Also call legacy hook in case external code relies on it
-                            onObjectChanged();
                         }
                     }
                     // Brief sleep to avoid busy-waiting; adjust as needed
@@ -103,13 +213,19 @@ public class ObjectListener {
     }
 
     /**
-     * Stops the background change watcher thread if it is running.
+     * Stops the background change watcher thread and network connections if they are running.
      */
     public synchronized void stop() {
         running = false;
         if (listenerThread != null) {
             listenerThread.interrupt();
             listenerThread = null;
+        }
+
+        // Stop the network manager if it's initialized
+        if (isNetworkInitialized && networkManager != null) {
+            networkManager.stop();
+            isNetworkInitialized = false;
         }
     }
 

@@ -34,13 +34,18 @@ tasks.register('startAll') {
 
 // Concurrent runner that starts both apps in separate OS processes and multiplexes output
 // Usage: gradlew startAllConcurrent
+// Debug mode: gradlew startAllConcurrent -Pdebug=true -PclientDebugPort=5005 -PserverDebugPort=5006
 // This ensures both apps' outputs are visible concurrently in the same console with prefixes.
 tasks.register('startAllConcurrent') {
     group = 'application'
-    description = 'Runs Client and Server concurrently with multiplexed console output.'
+    description = 'Runs Client and Server concurrently with multiplexed console output. ' +
+                  'Enable debugging with -Pdebug=true. ' +
+                  'Customize debug ports with -PclientDebugPort=5005 -PserverDebugPort=5006.'
 
     // Ensure classes and runtime classpaths are ready
     dependsOn(':client:classes', ':server:classes', ':common:classes')
+    // depends on build
+    dependsOn(':client:build', ':server:build', ':common:build')
 
     doLast {
         def clientProject = project(':client')
@@ -75,9 +80,27 @@ tasks.register('startAllConcurrent') {
             return [process: proc, thread: thread]
         }
 
+        // Debug configuration
+        // Enable with -Pdebug=true and customize ports with -PclientDebugPort=xxxx -PserverDebugPort=yyyy
+        // The JVM debug agent will listen on the specified ports in server mode without suspending execution
+        def enableDebug = project.hasProperty('debug') ? project.property('debug').toBoolean() : false
+        def clientDebugPort = project.hasProperty('clientDebugPort') ? project.property('clientDebugPort') : 5005
+        def serverDebugPort = project.hasProperty('serverDebugPort') ? project.property('serverDebugPort') : 5006
+
         // Commands for client and server
-        def clientCmd = [javaExe, '-cp', clientCp, clientMain]
-        def serverCmd = [javaExe, '-cp', serverCp, serverMain]
+        def clientCmd = [javaExe]
+        def serverCmd = [javaExe]
+
+        // Add debug options if enabled
+        if (enableDebug) {
+            clientCmd.addAll(['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:' + clientDebugPort])
+            serverCmd.addAll(['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:' + serverDebugPort])
+            println "Debug mode enabled - Client on port ${clientDebugPort}, Server on port ${serverDebugPort}"
+        }
+
+        // Add classpath and main class
+        clientCmd.addAll(['-cp', clientCp, clientMain])
+        serverCmd.addAll(['-cp', serverCp, serverMain])
 
         println 'Starting Client and Server...'
         def client = startProcess('client', clientCmd)
@@ -90,24 +113,62 @@ tasks.register('startAllConcurrent') {
         } as Runnable)
         Runtime.runtime.addShutdownHook(hook)
 
-        // Wait indefinitely while children run; exit when either stops
-        def waitThread = new Thread({
-            int exit1 = client.process.waitFor()
-            println "Client process exited with code ${exit1}"
-            try { server.process.destroy() } catch (ignore) {}
+        // Set up threads to monitor process exit codes
+        def clientMonitor = new Thread({
+            if (client.process.isAlive()) {
+                int exit1 = client.process.waitFor()
+                println "Client process exited with code ${exit1}"
+            }
         } as Runnable)
-        waitThread.start()
+        clientMonitor.setDaemon(true)
+        clientMonitor.start()
 
-        def waitThread2 = new Thread({
-            int exit2 = server.process.waitFor()
-            println "Server process exited with code ${exit2}"
-            try { client.process.destroy() } catch (ignore) {}
+        def serverMonitor = new Thread({
+            if (server.process.isAlive()) {
+                int exit2 = server.process.waitFor()
+                println "Server process exited with code ${exit2}"
+            }
         } as Runnable)
-        waitThread2.start()
+        serverMonitor.setDaemon(true)
+        serverMonitor.start()
+
+        // Check if processes started successfully
+        if (!client.process.isAlive() || !server.process.isAlive()) {
+            println "One or both processes failed to start. Exiting task."
+            return
+        }
 
         // Block the Gradle task so console stays attached until user stops it
-        waitThread.join()
-        waitThread2.join()
+        // Instead of indefinitely joining, periodically check if both processes have finished
+        boolean bothFinished = false
+        while (!bothFinished) {
+            boolean clientAlive = client.process.isAlive()
+            boolean serverAlive = server.process.isAlive()
+
+            // Check if both processes have finished
+            if (!clientAlive && !serverAlive) {
+                println "Both client and server processes have finished. Exiting task."
+                bothFinished = true
+                break
+            }
+
+            // If one process has finished but the other is still running, terminate the remaining one
+            if (!clientAlive && serverAlive) {
+                println "Client process has finished. Terminating server process."
+                try { server.process.destroy() } catch (ignore) {}
+            } else if (clientAlive && !serverAlive) {
+                println "Server process has finished. Terminating client process."
+                try { client.process.destroy() } catch (ignore) {}
+            }
+
+            // Sleep for a short time before checking again
+            try {
+                Thread.sleep(500)
+            } catch (InterruptedException e) {
+                println "Task interrupted. Exiting."
+                break
+            }
+        }
 
         // Remove shutdown hook if still present
         try { Runtime.runtime.removeShutdownHook(hook) } catch (IllegalStateException ignored) {}
