@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,32 +28,12 @@ public class ObjectListener {
     private boolean isNetworkInitialized = false;
 
     // source to destination object hash
-    public static class DestinationMapping implements Comparable<DestinationMapping> {
-        int sourceHash;
-        int destinationHash;
+    public static class DestinationMapping {
 
-        public DestinationMapping(int sourceHash, int destinationHash) {
-            this.sourceHash = sourceHash;
-            this.destinationHash = destinationHash;
+        public DestinationMapping() {
+
         }
 
-        @Override
-        public int compareTo(DestinationMapping other) {
-            return Integer.compare(this.sourceHash, other.sourceHash);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            DestinationMapping that = (DestinationMapping) o;
-            return sourceHash == that.sourceHash;
-        }
-
-        @Override
-        public int hashCode() {
-            return sourceHash;
-        }
     }
 
     /**
@@ -60,7 +41,7 @@ public class ObjectListener {
      * Sends the object over the network if network is initialized.
      */
     public void onObjectChanged(DestinationMapping mapping, Object value) {
-        System.out.println("[ObjectListener] Change detected for mapping src=" + mapping.sourceHash + " -> dst=" + mapping.destinationHash);
+        System.out.println("[ObjectListener] Change detected for mapping src=" + value.getClass());
 
         if (isNetworkInitialized) {
             try {
@@ -120,32 +101,16 @@ public class ObjectListener {
                 for (var entry : objectMapping.entrySet()) {
                     Object localObj = entry.getValue();
 
-                    // If the objects are of the same class, update the local object with the received one
+                    // Check if we have a local object of the same class
                     if (localObj != null && localObj.getClass().equals(obj.getClass())) {
                         try {
-                            // For Position objects, directly update the fields
-                            if (localObj instanceof Position && obj instanceof Position) {
-                                Position localPos = (Position) localObj;
-                                Position receivedPos = (Position) obj;
-
-                                // Update the local position fields
-                                localPos.x = receivedPos.x;
-                                localPos.y = receivedPos.y;
-                                localPos.z = receivedPos.z;
-
-                                System.out.println("[ObjectListener] Updated local position: " + localPos);
-                            } else {
-                                // For other object types, use field-by-field copying or other appropriate methods
-                                // This is a generic approach that might not work for all object types
-                                // Force the object bytes over
-                                byte[] objBytes = toBytes(obj);
-                                Object newObj = fromBytes(objBytes);
-                                objectMapping.put(entry.getKey(), newObj);
-                                System.out.println("[ObjectListener] Replaced local object with received object: " + newObj);
+                            // Try to copy fields from received object to local object
+                            if (copyFields(obj, localObj)) {
+                                System.out.println("[ObjectListener] Updated local object fields: " + localObj);
                             }
 
                             // Update the signature to prevent sending back the change we just received
-                            lastStateSignatures.put(entry.getKey(), computeStateSignature(localObj));
+                            lastStateSignatures.put(entry.getKey(), computeStateSignature(obj));
                             break;
                         } catch (Exception e) {
                             System.err.println("[ObjectListener] Error updating object: " + e.getMessage());
@@ -157,6 +122,46 @@ public class ObjectListener {
         } catch (Exception e) {
             System.err.println("[ObjectListener] Error processing received data: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates a new instance of the given class using ASM if necessary.
+     * @param clazz The class to create an instance of
+     * @return A new instance of the class
+     */
+    private Object createInstance(Class<?> clazz) throws Exception {
+        return clazz.getDeclaredConstructor().newInstance();
+    }
+
+    /**
+     * Copies all fields from source object to destination object.
+     * @param source The source object
+     * @param destination The destination object
+     * @return true if fields were copied successfully, false otherwise
+     */
+    private boolean copyFields(Object source, Object destination) {
+        if (source == null || destination == null || !source.getClass().equals(destination.getClass())) {
+            return false;
+        }
+
+        try {
+            // Generic approach for all objects using reflection
+            for (Field field : source.getClass().getDeclaredFields()) {
+                // Skip static and final fields
+                int modifiers = field.getModifiers();
+                if (java.lang.reflect.Modifier.isStatic(modifiers) || java.lang.reflect.Modifier.isFinal(modifiers)) {
+                    continue;
+                }
+
+                field.setAccessible(true);
+                Object value = field.get(source);
+                field.set(destination, value);
+            }
+            return true;
+        } catch (Exception e) {
+            System.err.println("[ObjectListener] Error copying fields: " + e.getMessage());
+            return false;
         }
     }
 

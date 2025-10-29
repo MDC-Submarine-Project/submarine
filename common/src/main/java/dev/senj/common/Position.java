@@ -6,8 +6,10 @@ public class Position implements Serializable {
 
     public float x, y, z;
 
+    private static final Position INSTANCE = new Position();
+
     public static Position getInstance() {
-        return new Position();
+        return INSTANCE;
     }
 
     @Override
