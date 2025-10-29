@@ -11,12 +11,33 @@ public class ServerMain {
     public static void main(String[] args) {
         ObjectListener objectListener = ObjectListener.getInstance();
 
-        // Initialize the network as a server
-        try {
-            objectListener.initializeAsServer(Constants.DEFAULT_PORT);
-        } catch (IOException e) {
-            System.err.println("Failed to initialize network: " + e.getMessage());
-            return;
+        // Initialize the network as a server with retries
+        boolean initialized = false;
+        int maxRetries = 30; // Try for about 30 seconds
+        int retryCount = 0;
+
+        while (!initialized && retryCount < maxRetries) {
+            try {
+                System.out.println("Attempting to initialize server on port " + Constants.DEFAULT_PORT + 
+                                  " (Attempt " + (retryCount + 1) + " of " + maxRetries + ")");
+                objectListener.initializeAsServer(Constants.DEFAULT_PORT);
+                initialized = true;
+                System.out.println("Successfully initialized server!");
+            } catch (IOException e) {
+                retryCount++;
+                if (retryCount >= maxRetries) {
+                    System.err.println("Failed to initialize network after " + maxRetries + " attempts: " + e.getMessage());
+                    return;
+                }
+                System.out.println("Initialization attempt failed. Retrying in 1 second...");
+                try {
+                    Thread.sleep(1000); // Wait 1 second before retrying
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Retry interrupted: " + ie.getMessage());
+                    return;
+                }
+            }
         }
 
         // Add shutdown hook to clean up resources

@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: submarine-server
+    environment:
+      - SUBMARINE_PORT=8080
+    ports:
+      - "8080:8080"
+    networks:
+      - submarine-network
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: submarine-client
+    environment:
+      - SUBMARINE_HOST=server
+      - SUBMARINE_PORT=8080
+    networks:
+      - submarine-network
+
+networks:
+  submarine-network:
+    driver: bridge

@@ -1,0 +1,26 @@
+FROM eclipse-temurin:21-jdk
+
+WORKDIR /app
+
+# Copy the Gradle wrapper files
+COPY gradlew .
+COPY gradle gradle
+
+# Copy the build files
+COPY build.gradle .
+COPY settings.gradle .
+COPY server/build.gradle server/
+COPY common/build.gradle common/
+
+# Make the Gradle wrapper executable
+RUN chmod +x gradlew
+
+# Copy the source code
+COPY server/src server/src
+COPY common/src common/src
+
+# Build the application
+RUN ./gradlew :server:build
+
+# Run the server
+CMD ["./gradlew", ":server:runServer"]
