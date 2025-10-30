@@ -3,6 +3,8 @@ package dev.senj.common;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,6 +19,8 @@ public class ObjectListener {
 
     // Mapping from a source object (by hash) to its destination counterpart
     private final ConcurrentHashMap<DestinationMapping, Object> objectMapping = new ConcurrentHashMap<>();
+    // Fast lookup by mapping id
+    private final ConcurrentHashMap<String, DestinationMapping> idIndex = new ConcurrentHashMap<>();
     // Last known state signature per mapping to detect changes across checks
     private final ConcurrentHashMap<DestinationMapping, Integer> lastStateSignatures = new ConcurrentHashMap<>();
 
@@ -29,11 +33,34 @@ public class ObjectListener {
 
     // source to destination object hash
     public static class DestinationMapping {
+        private final String id;
 
-        public DestinationMapping() {
-
+        public DestinationMapping(String id) {
+            if (id == null || id.isBlank()) {
+                throw new IllegalArgumentException("DestinationMapping id must not be null or blank");
+            }
+            this.id = id;
         }
 
+        public String getId() { return id; }
+
+        @Override
+        public String toString() {
+            return "DestinationMapping{" +
+                    "id='" + id + '\'' +
+                    '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            DestinationMapping that = (DestinationMapping) o;
+            return id.equals(that.id);
+        }
+
+        @Override
+        public int hashCode() { return id.hashCode(); }
     }
 
     /**
@@ -41,16 +68,31 @@ public class ObjectListener {
      * Sends the object over the network if network is initialized.
      */
     public void onObjectChanged(DestinationMapping mapping, Object value) {
-        System.out.println("[ObjectListener] Change detected for mapping src=" + value.getClass());
+        System.out.println("[ObjectListener] Change detected for mapping id=" + mapping.getId() + ", type=" + value.getClass());
 
         if (isNetworkInitialized) {
             try {
-                // Convert the object to bytes
-                byte[] data = toBytes(value);
+                // Convert the object to bytes (payload)
+                byte[] payload = toBytes(value);
 
-                // Send the bytes over the network
-                networkManager.transmit(data);
-                System.out.println("[ObjectListener] Sent object over network: " + value);
+                // Compute CRC32 as source hash of payload
+                CRC32 crc = new CRC32();
+                crc.update(payload);
+                int crc32 = (int) crc.getValue();
+
+                // Frame structure: [int idLen][id bytes UTF-8][int crc32][int payloadLen][payload]
+                byte[] idBytes = mapping.getId().getBytes(StandardCharsets.UTF_8);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                DataOutputStream dos = new DataOutputStream(baos);
+                dos.writeInt(idBytes.length);
+                dos.write(idBytes);
+                dos.writeInt(crc32);
+                dos.writeInt(payload.length);
+                dos.write(payload);
+                dos.flush();
+
+                networkManager.transmit(baos.toByteArray());
+                System.out.println("[ObjectListener] Sent object over network with id=" + mapping.getId() + ": " + value);
             } catch (IOException e) {
                 System.err.println("[ObjectListener] Error sending object over network: " + e.getMessage());
             }
@@ -88,35 +130,51 @@ public class ObjectListener {
 
     /**
      * Handles data received from the network.
+     * Frame: [int idLen][id bytes UTF-8][int crc32][int payloadLen][payload]
      * @param data The received data
      */
     private void handleReceivedData(byte[] data) {
         try {
-            // Convert the bytes back to an object
-            Object obj = fromBytes(data);
-            if (obj != null) {
-                System.out.println("[ObjectListener] Received object from network: " + obj);
+            if (data == null || data.length < 16) return; // minimal header
 
-                // Find a matching object in our mapping
-                for (var entry : objectMapping.entrySet()) {
-                    Object localObj = entry.getValue();
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(data);
+                 DataInputStream dis = new DataInputStream(bais)) {
+                int idLen = dis.readInt();
+                if (idLen < 0 || idLen > 65535) throw new IOException("Invalid id length: " + idLen);
+                byte[] idBytes = new byte[idLen];
+                dis.readFully(idBytes);
+                String id = new String(idBytes, StandardCharsets.UTF_8);
 
-                    // Check if we have a local object of the same class
-                    if (localObj != null && localObj.getClass().equals(obj.getClass())) {
-                        try {
-                            // Try to copy fields from received object to local object
-                            if (copyFields(obj, localObj)) {
-                                System.out.println("[ObjectListener] Updated local object fields: " + localObj);
-                            }
+                int crc32 = dis.readInt();
+                int payloadLen = dis.readInt();
+                if (payloadLen < 0) throw new IOException("Invalid payload length: " + payloadLen);
+                byte[] payload = new byte[payloadLen];
+                dis.readFully(payload);
 
-                            // Update the signature to prevent sending back the change we just received
-                            lastStateSignatures.put(entry.getKey(), computeStateSignature(obj));
-                            break;
-                        } catch (Exception e) {
-                            System.err.println("[ObjectListener] Error updating object: " + e.getMessage());
-                            e.printStackTrace();
-                        }
+                Object obj = fromBytes(payload);
+                if (obj == null) return;
+
+                System.out.println("[ObjectListener] Received object id=" + id + ", payloadType=" + obj.getClass());
+
+                DestinationMapping mapping = idIndex.get(id);
+                if (mapping == null) {
+                    System.out.println("[ObjectListener] No local mapping registered for id=" + id + ". Ignoring.");
+                    return;
+                }
+                Object localObj = objectMapping.get(mapping);
+                if (localObj == null) {
+                    System.out.println("[ObjectListener] Mapping id=" + id + " has no local object. Ignoring.");
+                    return;
+                }
+
+                if (localObj.getClass().equals(obj.getClass())) {
+                    if (copyFields(obj, localObj)) {
+                        System.out.println("[ObjectListener] Updated local object for id=" + id + ": " + localObj);
                     }
+                    // Use the received CRC as the new signature to avoid echo
+                    lastStateSignatures.put(mapping, crc32);
+                } else {
+                    System.err.println("[ObjectListener] Type mismatch for id=" + id + ": local=" + localObj.getClass() + ", incoming=" + obj.getClass());
                 }
             }
         } catch (Exception e) {
@@ -239,6 +297,7 @@ public class ObjectListener {
      */
     public void put(DestinationMapping mapping, Object obj) {
         objectMapping.put(mapping, obj);
+        idIndex.put(mapping.getId(), mapping);
         // Initialize its signature so that the first detection occurs on actual change
         lastStateSignatures.put(mapping, computeStateSignature(obj));
     }

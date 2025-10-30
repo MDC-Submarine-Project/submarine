@@ -56,7 +56,7 @@ public class ClientMain {
 
         // Register the position object with the object listener
         objectListener.put(
-                new ObjectListener.DestinationMapping(),
+                new ObjectListener.DestinationMapping("position"),
                 position
         );
 

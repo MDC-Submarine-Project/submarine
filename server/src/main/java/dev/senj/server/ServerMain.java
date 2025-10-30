@@ -51,7 +51,7 @@ public class ServerMain {
         Position position = Position.getInstance();
 
         objectListener.put(
-                new ObjectListener.DestinationMapping(),
+                new ObjectListener.DestinationMapping("position"),
                 position
         );
 
