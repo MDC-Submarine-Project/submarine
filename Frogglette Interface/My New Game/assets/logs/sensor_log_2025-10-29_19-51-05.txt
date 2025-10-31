@@ -1,0 +1,14 @@
+Depth: 0.04, Temp: 26.66, Speed: 0.05
+Depth: 0.00, Temp: 28.00, Speed: 0.21
+Depth: 0.00, Temp: 21.98, Speed: 0.00
+Depth: 0.00, Temp: 25.12, Speed: 0.00
+Depth: 0.00, Temp: 28.18, Speed: 0.00
+Depth: 0.00, Temp: 23.38, Speed: 0.00
+Depth: 0.00, Temp: 28.90, Speed: 0.00
+Depth: 0.00, Temp: 23.72, Speed: 0.00
+Depth: 0.00, Temp: 25.06, Speed: 0.00
+Depth: 0.00, Temp: 23.93, Speed: 0.00
+Depth: 0.00, Temp: 25.56, Speed: 0.00
+Depth: 0.00, Temp: 25.77, Speed: 0.00
+Depth: 0.00, Temp: 24.90, Speed: 0.00
+Depth: 0.00, Temp: 28.64, Speed: 0.00

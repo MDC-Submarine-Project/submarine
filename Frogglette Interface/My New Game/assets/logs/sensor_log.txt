@@ -1,0 +1,415 @@
+Depth: 8.15, Temp: 17.49, Speed: 1.04
+Depth: 86.66, Temp: 29.19, Speed: 3.08
+Depth: 50.19, Temp: 37.02, Speed: 1.32
+Depth: 52.62, Temp: 15.12, Speed: 4.10
+Depth: 77.74, Temp: 19.36, Speed: 1.33
+Depth: 10.32, Temp: 23.24, Speed: 4.30
+Depth: 57.78, Temp: 32.80, Speed: 1.37
+Depth: 58.41, Temp: 37.29, Speed: 2.82
+Depth: 66.87, Temp: 32.77, Speed: 2.54
+Depth: 17.77, Temp: 12.14, Speed: 2.34
+Depth: 77.02, Temp: 24.52, Speed: 3.51
+Depth: 46.93, Temp: 29.03, Speed: 0.18
+Depth: 94.05, Temp: 36.02, Speed: 2.85
+Depth: 33.77, Temp: 25.11, Speed: 3.44
+Depth: 75.47, Temp: 19.79, Speed: 3.12
+Depth: 67.07, Temp: 38.16, Speed: 1.78
+Depth: 2.08, Temp: 27.62, Speed: 3.55
+Depth: 53.23, Temp: 14.20, Speed: 0.62
+Depth: 56.97, Temp: 31.50, Speed: 4.92
+Depth: 86.56, Temp: 34.10, Speed: 3.09
+Depth: 91.73, Temp: 25.25, Speed: 0.93
+Depth: 74.17, Temp: 22.78, Speed: 0.05
+Depth: 63.24, Temp: 31.19, Speed: 1.97
+Depth: 91.02, Temp: 10.03, Speed: 4.33
+Depth: 39.62, Temp: 31.53, Speed: 3.66
+Depth: 96.02, Temp: 13.99, Speed: 1.48
+Depth: 8.37, Temp: 17.60, Speed: 1.19
+Depth: 81.07, Temp: 36.38, Speed: 2.27
+Depth: 15.86, Temp: 31.03, Speed: 0.66
+Depth: 52.65, Temp: 30.31, Speed: 1.64
+Depth: 29.10, Temp: 39.20, Speed: 3.72
+Depth: 34.26, Temp: 24.08, Speed: 4.30
+Depth: 73.38, Temp: 23.78, Speed: 0.71
+Depth: 19.36, Temp: 21.76, Speed: 3.03
+Depth: 5.90, Temp: 13.86, Speed: 2.34
+Depth: 38.58, Temp: 29.37, Speed: 0.74
+Depth: 51.52, Temp: 31.40, Speed: 3.19
+Depth: 93.65, Temp: 32.56, Speed: 4.49
+Depth: 84.76, Temp: 39.12, Speed: 1.72
+Depth: 92.39, Temp: 28.09, Speed: 4.68
+Depth: 69.47, Temp: 36.34, Speed: 4.11
+Depth: 36.45, Temp: 25.04, Speed: 0.96
+Depth: 10.19, Temp: 20.77, Speed: 3.25
+Depth: 10.47, Temp: 18.56, Speed: 2.97
+Depth: 28.71, Temp: 14.69, Speed: 3.42
+Depth: 46.90, Temp: 26.60, Speed: 4.28
+Depth: 29.65, Temp: 20.08, Speed: 1.06
+Depth: 59.27, Temp: 22.00, Speed: 1.45
+Depth: 21.29, Temp: 13.31, Speed: 2.45
+Depth: 0.72, Temp: 30.63, Speed: 2.07
+Depth: 13.18, Temp: 20.80, Speed: 0.47
+Depth: 81.91, Temp: 24.17, Speed: 4.92
+Depth: 31.98, Temp: 25.39, Speed: 1.93
+Depth: 33.02, Temp: 31.16, Speed: 3.44
+Depth: 16.22, Temp: 17.87, Speed: 3.96
+Depth: 13.98, Temp: 31.53, Speed: 4.06
+Depth: 55.51, Temp: 21.44, Speed: 2.31
+Depth: 71.32, Temp: 13.66, Speed: 0.55
+Depth: 86.78, Temp: 10.98, Speed: 3.66
+Depth: 13.94, Temp: 27.04, Speed: 3.90
+Depth: 3.24, Temp: 11.57, Speed: 0.98
+Depth: 97.38, Temp: 13.97, Speed: 2.65
+Depth: 32.00, Temp: 10.55, Speed: 1.97
+Depth: 71.30, Temp: 15.82, Speed: 4.77
+Depth: 27.60, Temp: 28.21, Speed: 1.12
+Depth: 3.51, Temp: 18.05, Speed: 4.25
+Depth: 8.96, Temp: 16.55, Speed: 0.27
+Depth: 15.83, Temp: 25.40, Speed: 2.94
+Depth: 54.81, Temp: 15.12, Speed: 0.03
+Depth: 32.02, Temp: 39.12, Speed: 3.69
+Depth: 63.68, Temp: 14.11, Speed: 1.91
+Depth: 74.22, Temp: 16.76, Speed: 4.77
+Depth: 25.83, Temp: 38.94, Speed: 2.98
+Depth: 35.53, Temp: 33.22, Speed: 0.39
+Depth: 43.46, Temp: 13.26, Speed: 2.85
+Depth: 58.06, Temp: 16.44, Speed: 3.31
+Depth: 11.89, Temp: 17.90, Speed: 4.59
+Depth: 87.61, Temp: 17.72, Speed: 4.27
+Depth: 46.52, Temp: 38.81, Speed: 4.13
+Depth: 69.62, Temp: 24.45, Speed: 4.45
+Depth: 23.00, Temp: 19.92, Speed: 2.54
+Depth: 39.73, Temp: 21.90, Speed: 0.09
+Depth: 90.12, Temp: 36.58, Speed: 0.72
+Depth: 96.58, Temp: 36.65, Speed: 2.74
+Depth: 13.88, Temp: 11.76, Speed: 4.62
+Depth: 67.78, Temp: 32.89, Speed: 1.01
+Depth: 60.47, Temp: 20.50, Speed: 3.43
+Depth: 33.60, Temp: 23.02, Speed: 1.73
+Depth: 49.25, Temp: 22.22, Speed: 0.27
+Depth: 48.77, Temp: 15.15, Speed: 0.47
+Depth: 77.34, Temp: 33.63, Speed: 3.08
+Depth: 5.94, Temp: 31.05, Speed: 3.86
+Depth: 14.28, Temp: 19.93, Speed: 2.20
+Depth: 38.15, Temp: 12.17, Speed: 4.82
+Depth: 91.82, Temp: 22.26, Speed: 3.38
+Depth: 64.53, Temp: 35.48, Speed: 1.86
+Depth: 74.01, Temp: 17.37, Speed: 2.10
+Depth: 29.86, Temp: 22.70, Speed: 4.63
+Depth: 55.70, Temp: 33.77, Speed: 1.71
+Depth: 32.31, Temp: 14.60, Speed: 2.76
+Depth: 90.46, Temp: 24.19, Speed: 1.34
+Depth: 99.15, Temp: 35.89, Speed: 3.76
+Depth: 60.60, Temp: 32.29, Speed: 3.97
+Depth: 83.18, Temp: 38.08, Speed: 1.23
+Depth: 68.84, Temp: 26.68, Speed: 2.68
+Depth: 43.05, Temp: 24.14, Speed: 1.20
+Depth: 50.49, Temp: 28.27, Speed: 2.57
+Depth: 49.40, Temp: 26.49, Speed: 2.51
+Depth: 7.54, Temp: 29.79, Speed: 3.86
+Depth: 78.19, Temp: 38.08, Speed: 2.37
+Depth: 71.24, Temp: 26.39, Speed: 2.80
+Depth: 32.07, Temp: 20.61, Speed: 2.60
+Depth: 99.64, Temp: 20.03, Speed: 4.78
+Depth: 21.59, Temp: 20.43, Speed: 2.83
+Depth: 17.85, Temp: 25.37, Speed: 3.85
+Depth: 65.35, Temp: 39.96, Speed: 3.43
+Depth: 85.04, Temp: 39.16, Speed: 3.74
+Depth: 80.77, Temp: 16.38, Speed: 2.48
+Depth: 60.79, Temp: 32.33, Speed: 3.40
+Depth: 42.17, Temp: 16.84, Speed: 4.99
+Depth: 85.05, Temp: 25.95, Speed: 1.10
+Depth: 43.10, Temp: 22.21, Speed: 4.86
+Depth: 80.24, Temp: 25.47, Speed: 1.22
+Depth: 65.73, Temp: 33.65, Speed: 0.87
+Depth: 2.26, Temp: 25.18, Speed: 3.55
+Depth: 20.83, Temp: 17.90, Speed: 4.15
+Depth: 52.37, Temp: 18.71, Speed: 2.46
+Depth: 59.87, Temp: 33.35, Speed: 0.19
+Depth: 13.53, Temp: 36.01, Speed: 0.07
+Depth: 89.44, Temp: 30.28, Speed: 3.67
+Depth: 2.42, Temp: 34.98, Speed: 3.96
+Depth: 15.76, Temp: 39.04, Speed: 3.42
+Depth: 78.86, Temp: 20.26, Speed: 0.37
+Depth: 47.09, Temp: 33.90, Speed: 4.56
+Depth: 54.21, Temp: 36.28, Speed: 0.91
+Depth: 5.91, Temp: 33.49, Speed: 0.54
+Depth: 17.19, Temp: 22.60, Speed: 0.00
+Depth: 11.90, Temp: 23.14, Speed: 4.78
+Depth: 97.31, Temp: 28.58, Speed: 1.13
+Depth: 80.19, Temp: 34.32, Speed: 4.17
+Depth: 40.61, Temp: 16.07, Speed: 2.64
+Depth: 37.99, Temp: 14.61, Speed: 4.01
+Depth: 1.82, Temp: 29.62, Speed: 1.19
+Depth: 68.89, Temp: 36.12, Speed: 1.91
+Depth: 24.61, Temp: 30.67, Speed: 4.78
+Depth: 14.79, Temp: 36.63, Speed: 3.91
+Depth: 11.72, Temp: 16.35, Speed: 4.85
+Depth: 16.99, Temp: 16.07, Speed: 1.65
+Depth: 26.52, Temp: 25.65, Speed: 3.61
+Depth: 88.00, Temp: 19.85, Speed: 1.56
+Depth: 37.24, Temp: 24.91, Speed: 1.55
+Depth: 5.21, Temp: 17.66, Speed: 0.46
+Depth: 18.62, Temp: 34.23, Speed: 2.15
+Depth: 40.80, Temp: 16.33, Speed: 1.97
+Depth: 11.52, Temp: 34.69, Speed: 2.44
+Depth: 69.99, Temp: 18.06, Speed: 0.26
+Depth: 6.38, Temp: 36.73, Speed: 3.41
+Depth: 43.81, Temp: 17.57, Speed: 2.78
+Depth: 64.27, Temp: 19.88, Speed: 1.41
+Depth: 43.23, Temp: 32.39, Speed: 3.65
+Depth: 56.09, Temp: 14.92, Speed: 4.25
+Depth: 88.77, Temp: 18.49, Speed: 0.28
+Depth: 9.43, Temp: 29.23, Speed: 0.80
+Depth: 16.30, Temp: 21.80, Speed: 0.13
+Depth: 37.11, Temp: 32.08, Speed: 4.73
+Depth: 0.06, Temp: 16.47, Speed: 0.80
+Depth: 33.80, Temp: 32.32, Speed: 3.53
+Depth: 87.75, Temp: 24.63, Speed: 4.31
+Depth: 86.41, Temp: 27.74, Speed: 0.30
+Depth: 90.48, Temp: 25.42, Speed: 1.66
+Depth: 61.02, Temp: 10.48, Speed: 4.48
+Depth: 87.51, Temp: 24.59, Speed: 4.33
+Depth: 32.51, Temp: 12.36, Speed: 0.06
+Depth: 96.75, Temp: 11.90, Speed: 4.32
+Depth: 50.17, Temp: 23.67, Speed: 1.95
+Depth: 85.05, Temp: 36.36, Speed: 3.70
+Depth: 8.50, Temp: 18.25, Speed: 1.29
+Depth: 28.25, Temp: 21.63, Speed: 3.59
+Depth: 40.93, Temp: 24.85, Speed: 0.56
+Depth: 45.87, Temp: 16.83, Speed: 2.53
+Depth: 4.17, Temp: 17.75, Speed: 4.43
+Depth: 89.24, Temp: 22.33, Speed: 1.63
+Depth: 19.71, Temp: 27.93, Speed: 0.77
+Depth: 53.42, Temp: 11.12, Speed: 2.73
+Depth: 78.52, Temp: 16.26, Speed: 4.68
+Depth: 84.18, Temp: 28.49, Speed: 0.46
+Depth: 56.39, Temp: 34.49, Speed: 4.51
+Depth: 10.44, Temp: 23.37, Speed: 2.51
+Depth: 90.70, Temp: 16.48, Speed: 2.22
+Depth: 41.40, Temp: 14.33, Speed: 4.21
+Depth: 80.16, Temp: 29.68, Speed: 0.51
+Depth: 7.82, Temp: 21.64, Speed: 4.56
+Depth: 83.03, Temp: 17.86, Speed: 0.94
+Depth: 28.88, Temp: 15.96, Speed: 0.08
+Depth: 18.36, Temp: 27.03, Speed: 0.89
+Depth: 18.07, Temp: 33.57, Speed: 2.81
+Depth: 60.70, Temp: 15.60, Speed: 1.64
+Depth: 90.37, Temp: 17.56, Speed: 0.90
+Depth: 69.70, Temp: 27.19, Speed: 3.85
+Depth: 91.92, Temp: 12.89, Speed: 4.53
+Depth: 17.31, Temp: 27.85, Speed: 1.28
+Depth: 2.78, Temp: 39.02, Speed: 3.44
+Depth: 59.14, Temp: 39.30, Speed: 0.75
+Depth: 58.41, Temp: 37.34, Speed: 0.55
+Depth: 91.31, Temp: 30.36, Speed: 2.58
+Depth: 97.48, Temp: 36.42, Speed: 4.46
+Depth: 57.25, Temp: 18.27, Speed: 3.78
+Depth: 29.13, Temp: 17.10, Speed: 1.35
+Depth: 25.16, Temp: 29.94, Speed: 0.38
+Depth: 26.73, Temp: 31.56, Speed: 3.79
+Depth: 72.77, Temp: 18.98, Speed: 0.17
+Depth: 40.65, Temp: 16.17, Speed: 0.41
+Depth: 48.92, Temp: 26.83, Speed: 4.79
+Depth: 50.60, Temp: 17.13, Speed: 2.85
+Depth: 56.50, Temp: 26.63, Speed: 2.38
+Depth: 30.28, Temp: 16.73, Speed: 2.96
+Depth: 93.45, Temp: 33.57, Speed: 2.45
+Depth: 37.38, Temp: 32.61, Speed: 2.60
+Depth: 42.44, Temp: 17.03, Speed: 4.20
+[2025-10-28 20:07:21] Depth: 67.70, Temp: 18.01, Speed: 4.73
+[2025-10-28 20:07:22] Depth: 45.63, Temp: 28.55, Speed: 0.53
+[2025-10-28 20:07:23] Depth: 77.92, Temp: 13.78, Speed: 3.27
+[2025-10-28 20:07:24] Depth: 20.65, Temp: 18.99, Speed: 3.88
+[2025-10-28 20:07:25] Depth: 29.65, Temp: 21.51, Speed: 0.87
+[2025-10-28 20:07:26] Depth: 8.02, Temp: 25.45, Speed: 0.25
+[2025-10-28 20:07:27] Depth: 48.33, Temp: 25.92, Speed: 3.05
+[2025-10-28 20:07:28] Depth: 3.08, Temp: 10.01, Speed: 1.17
+[2025-10-28 20:07:29] Depth: 14.17, Temp: 20.84, Speed: 1.06
+[2025-10-28 20:07:30] Depth: 95.71, Temp: 12.90, Speed: 0.68
+[2025-10-28 20:07:31] Depth: 92.79, Temp: 18.22, Speed: 2.70
+[2025-10-28 20:07:32] Depth: 74.82, Temp: 27.86, Speed: 2.76
+[2025-10-28 20:07:33] Depth: 80.20, Temp: 20.48, Speed: 4.77
+[2025-10-28 20:07:34] Depth: 84.08, Temp: 21.37, Speed: 4.32
+[2025-10-28 20:07:35] Depth: 27.35, Temp: 22.50, Speed: 1.26
+[2025-10-28 20:07:36] Depth: 32.01, Temp: 35.18, Speed: 1.37
+[2025-10-28 20:07:37] Depth: 85.81, Temp: 12.53, Speed: 3.66
+[2025-10-28 20:07:38] Depth: 58.72, Temp: 30.78, Speed: 3.30
+[2025-10-28 20:07:39] Depth: 74.03, Temp: 36.52, Speed: 0.38
+[2025-10-28 20:07:40] Depth: 34.54, Temp: 13.59, Speed: 1.82
+[2025-10-28 20:07:41] Depth: 65.56, Temp: 36.65, Speed: 4.86
+[2025-10-28 20:07:42] Depth: 65.84, Temp: 10.58, Speed: 1.36
+[2025-10-28 20:07:43] Depth: 91.78, Temp: 22.32, Speed: 3.88
+[2025-10-28 20:07:44] Depth: 16.80, Temp: 26.32, Speed: 4.26
+[2025-10-28 20:07:45] Depth: 73.96, Temp: 23.83, Speed: 3.52
+[2025-10-28 20:07:46] Depth: 73.52, Temp: 36.01, Speed: 4.76
+[2025-10-28 20:07:47] Depth: 75.83, Temp: 13.49, Speed: 2.10
+[2025-10-28 20:07:48] Depth: 50.85, Temp: 32.79, Speed: 3.98
+[2025-10-28 20:07:49] Depth: 90.18, Temp: 26.50, Speed: 0.56
+[2025-10-28 20:07:50] Depth: 10.77, Temp: 16.25, Speed: 2.81
+[2025-10-28 20:07:51] Depth: 48.23, Temp: 28.62, Speed: 1.17
+[2025-10-28 20:07:52] Depth: 24.56, Temp: 36.83, Speed: 4.31
+[2025-10-28 20:07:53] Depth: 23.39, Temp: 15.32, Speed: 0.07
+[2025-10-28 20:07:54] Depth: 19.86, Temp: 17.36, Speed: 4.69
+[2025-10-28 20:07:55] Depth: 46.03, Temp: 23.23, Speed: 4.26
+[2025-10-28 20:07:56] Depth: 12.98, Temp: 36.07, Speed: 3.96
+[2025-10-28 20:07:57] Depth: 58.32, Temp: 16.29, Speed: 4.85
+[2025-10-28 20:07:58] Depth: 14.35, Temp: 13.32, Speed: 3.66
+[2025-10-28 20:07:59] Depth: 49.16, Temp: 38.04, Speed: 2.02
+[2025-10-28 20:08:00] Depth: 48.44, Temp: 14.48, Speed: 2.56
+[2025-10-28 20:08:01] Depth: 99.11, Temp: 20.81, Speed: 1.24
+[2025-10-28 20:08:02] Depth: 34.37, Temp: 31.24, Speed: 3.43
+[2025-10-28 20:08:03] Depth: 3.37, Temp: 22.33, Speed: 2.98
+[2025-10-28 20:08:04] Depth: 15.75, Temp: 30.92, Speed: 3.86
+[2025-10-28 20:08:05] Depth: 63.72, Temp: 34.55, Speed: 3.64
+[2025-10-28 20:08:06] Depth: 99.10, Temp: 16.68, Speed: 2.27
+[2025-10-28 20:08:07] Depth: 67.43, Temp: 34.29, Speed: 3.42
+[2025-10-28 20:08:08] Depth: 40.45, Temp: 35.27, Speed: 4.71
+[2025-10-28 20:08:09] Depth: 9.29, Temp: 31.53, Speed: 1.85
+[2025-10-28 20:08:10] Depth: 17.50, Temp: 16.64, Speed: 2.27
+[2025-10-28 20:08:11] Depth: 71.67, Temp: 19.99, Speed: 2.77
+[2025-10-28 20:08:12] Depth: 22.69, Temp: 20.72, Speed: 1.42
+[2025-10-28 20:08:13] Depth: 56.41, Temp: 34.47, Speed: 2.18
+[2025-10-28 20:08:14] Depth: 79.05, Temp: 18.11, Speed: 2.28
+[2025-10-28 20:08:15] Depth: 52.73, Temp: 25.94, Speed: 1.81
+[2025-10-28 20:08:16] Depth: 38.04, Temp: 34.44, Speed: 3.84
+[2025-10-28 20:08:17] Depth: 27.99, Temp: 24.64, Speed: 1.86
+[2025-10-28 20:08:18] Depth: 50.44, Temp: 35.22, Speed: 3.92
+[2025-10-28 20:08:19] Depth: 97.77, Temp: 23.73, Speed: 1.30
+[2025-10-28 20:08:20] Depth: 10.78, Temp: 37.94, Speed: 4.00
+[2025-10-28 20:08:21] Depth: 20.53, Temp: 31.81, Speed: 1.33
+[2025-10-28 20:08:22] Depth: 2.45, Temp: 17.53, Speed: 3.90
+[2025-10-28 20:08:23] Depth: 1.42, Temp: 22.43, Speed: 3.96
+[2025-10-28 20:08:24] Depth: 71.80, Temp: 38.49, Speed: 2.56
+Depth: 0.50, Temp: 23.05, Speed: 0.00
+Depth: 0.50, Temp: 27.65, Speed: 3.40
+Depth: 0.50, Temp: 20.24, Speed: 3.52
+Depth: 0.50, Temp: 27.29, Speed: 0.43
+Depth: 0.50, Temp: 29.34, Speed: 4.87
+Depth: 0.50, Temp: 24.92, Speed: 1.02
+Depth: 3.45, Temp: 28.30, Speed: 0.94
+Depth: 0.75, Temp: 24.96, Speed: 7.01
+Depth: 1.71, Temp: 21.73, Speed: 4.58
+Depth: 0.50, Temp: 23.65, Speed: 7.87
+Depth: 0.50, Temp: 28.39, Speed: 3.99
+Depth: 1.96, Temp: 22.66, Speed: 7.63
+Depth: 12.57, Temp: 28.19, Speed: 7.72
+Depth: 14.66, Temp: 24.71, Speed: 13.19
+Depth: 6.31, Temp: 20.57, Speed: 30.83
+Depth: -11.94, Temp: 24.95, Speed: 53.19
+Depth: -40.19, Temp: 23.16, Speed: 59.09
+Depth: -79.17, Temp: 22.99, Speed: 72.99
+Depth: -133.33, Temp: 26.54, Speed: 89.69
+Depth: -197.06, Temp: 24.38, Speed: 78.98
+Depth: -240.81, Temp: 24.87, Speed: 67.06
+Depth: -272.89, Temp: 24.95, Speed: 69.69
+Depth: -318.79, Temp: 22.11, Speed: 82.41
+Depth: -394.57, Temp: 21.62, Speed: 98.07
+Depth: 2.02, Temp: 24.65, Speed: 0.10
+Depth: 0.00, Temp: 21.43, Speed: 0.05
+Depth: 2.05, Temp: 20.96, Speed: 0.17
+Depth: 0.00, Temp: 20.21, Speed: 0.35
+Depth: 0.46, Temp: 22.41, Speed: 5.36
+Depth: 0.00, Temp: 21.33, Speed: 16.18
+Depth: 0.00, Temp: 28.59, Speed: 5.84
+Depth: 0.00, Temp: 21.92, Speed: 9.32
+Depth: 12.48, Temp: 21.56, Speed: 19.49
+Depth: 0.00, Temp: 21.83, Speed: 37.78
+Depth: 0.00, Temp: 28.65, Speed: 7.78
+Depth: 0.00, Temp: 21.14, Speed: 2.38
+Depth: 0.00, Temp: 24.64, Speed: 2.38
+Depth: 0.00, Temp: 22.29, Speed: 17.38
+Depth: 0.61, Temp: 27.53, Speed: 29.89
+Depth: 0.74, Temp: 29.73, Speed: 29.97
+Depth: 0.00, Temp: 26.75, Speed: 25.78
+Depth: 0.00, Temp: 29.78, Speed: 19.83
+Depth: 0.00, Temp: 22.53, Speed: 33.59
+Depth: 0.00, Temp: 27.70, Speed: 58.24
+Depth: 0.00, Temp: 23.77, Speed: 65.72
+Depth: 1.63, Temp: 20.61, Speed: 2.54
+Depth: 0.31, Temp: 23.57, Speed: 2.44
+Depth: 0.33, Temp: 21.09, Speed: 0.17
+Depth: 1.76, Temp: 21.38, Speed: 5.01
+Depth: 5.85, Temp: 23.54, Speed: 4.67
+Depth: 0.00, Temp: 22.82, Speed: 10.33
+Depth: 0.00, Temp: 22.93, Speed: 0.33
+Depth: 0.00, Temp: 24.80, Speed: 9.84
+Depth: 5.66, Temp: 25.38, Speed: 6.97
+Depth: 0.00, Temp: 22.94, Speed: 12.67
+Depth: 0.00, Temp: 21.78, Speed: 2.50
+Depth: 0.00, Temp: 24.17, Speed: 7.50
+Depth: 3.04, Temp: 23.66, Speed: 14.97
+Depth: 2.00, Temp: 27.76, Speed: 0.08
+Depth: 1.40, Temp: 28.76, Speed: 2.35
+Depth: 1.45, Temp: 23.31, Speed: 6.27
+Depth: 0.00, Temp: 28.80, Speed: 2.12
+Depth: 8.10, Temp: 22.28, Speed: 6.33
+Depth: 0.00, Temp: 22.13, Speed: 17.64
+Depth: 0.00, Temp: 26.42, Speed: 7.47
+Depth: 0.00, Temp: 27.15, Speed: 2.53
+Depth: 0.00, Temp: 26.91, Speed: 12.69
+Depth: 3.19, Temp: 28.19, Speed: 36.74
+Depth: 3.81, Temp: 26.97, Speed: 38.36
+Depth: 0.00, Temp: 29.53, Speed: 25.43
+Depth: 0.00, Temp: 21.69, Speed: 16.06
+Depth: 0.00, Temp: 20.14, Speed: 7.14
+Depth: 0.00, Temp: 26.12, Speed: 0.34
+Depth: 0.03, Temp: 29.21, Speed: 0.02
+Depth: 0.02, Temp: 24.78, Speed: 0.00
+Depth: 0.02, Temp: 23.62, Speed: 0.00
+Depth: 0.02, Temp: 24.98, Speed: 0.00
+Depth: 0.02, Temp: 26.65, Speed: 0.00
+Depth: 0.02, Temp: 28.59, Speed: 0.00
+Depth: 0.02, Temp: 27.37, Speed: 0.00
+Depth: 0.02, Temp: 23.92, Speed: 0.00
+Depth: 0.02, Temp: 28.72, Speed: 0.00
+Depth: 0.02, Temp: 22.19, Speed: 0.00
+Depth: 0.02, Temp: 25.94, Speed: 0.00
+Depth: 0.02, Temp: 21.27, Speed: 0.00
+Depth: 0.02, Temp: 20.65, Speed: 0.00
+Depth: 0.00, Temp: 29.67, Speed: 0.00
+Depth: 0.01, Temp: 22.09, Speed: 0.42
+Depth: 0.00, Temp: 23.80, Speed: 0.33
+Depth: 0.07, Temp: 26.30, Speed: 0.15
+Depth: 0.00, Temp: 20.91, Speed: 0.00
+Depth: 0.00, Temp: 28.75, Speed: 0.00
+Depth: 0.00, Temp: 25.01, Speed: 0.00
+Depth: 0.00, Temp: 26.82, Speed: 0.00
+Depth: 0.00, Temp: 24.24, Speed: 0.00
+Depth: 0.03, Temp: 27.13, Speed: 0.21
+Depth: 0.00, Temp: 23.95, Speed: 2.90
+Depth: 0.00, Temp: 26.13, Speed: 0.64
+Depth: 0.01, Temp: 25.16, Speed: 2.05
+Depth: 0.00, Temp: 22.27, Speed: 2.17
+Depth: 0.68, Temp: 27.54, Speed: 0.70
+Depth: 0.00, Temp: 23.39, Speed: 2.11
+Depth: 0.08, Temp: 21.52, Speed: 2.82
+Depth: 0.00, Temp: 22.79, Speed: 1.83
+Depth: 0.00, Temp: 28.63, Speed: 1.61
+Depth: 0.01, Temp: 24.68, Speed: 0.35
+Depth: 0.00, Temp: 28.61, Speed: 4.53
+Depth: 0.00, Temp: 27.81, Speed: 2.81
+Depth: 1.22, Temp: 21.59, Speed: 0.82
+Depth: 0.02, Temp: 24.68, Speed: 2.37
+Depth: 0.14, Temp: 26.73, Speed: 5.11
+Depth: 0.81, Temp: 27.13, Speed: 2.23
+Depth: 0.22, Temp: 29.67, Speed: 2.11
+Depth: 0.59, Temp: 26.05, Speed: 1.08
+Depth: 2.21, Temp: 25.03, Speed: 2.57
+Depth: 6.33, Temp: 21.32, Speed: 5.01
+Depth: 12.01, Temp: 24.96, Speed: 6.08
+Depth: 18.65, Temp: 24.62, Speed: 7.08
+Depth: 26.20, Temp: 24.76, Speed: 10.27
+Depth: 34.78, Temp: 29.12, Speed: 9.95
+Depth: 44.50, Temp: 26.09, Speed: 11.03
+Depth: 48.54, Temp: 26.30, Speed: 1.49
+Depth: 49.00, Temp: 29.11, Speed: 0.00
+Depth: 47.85, Temp: 23.38, Speed: 0.91
+Depth: 49.00, Temp: 23.65, Speed: 0.00
+Depth: 49.00, Temp: 23.84, Speed: 0.00
+Depth: 49.00, Temp: 24.56, Speed: 0.00
+Depth: 49.00, Temp: 29.51, Speed: 0.00
+Depth: 49.00, Temp: 27.98, Speed: 0.00
+Depth: 49.00, Temp: 28.29, Speed: 0.00
+Depth: 49.00, Temp: 28.98, Speed: 0.00
+Depth: 49.00, Temp: 20.61, Speed: 0.00
