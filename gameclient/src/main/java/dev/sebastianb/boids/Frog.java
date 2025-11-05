@@ -1,4 +1,4 @@
-package io.github.some_example_name;
+package dev.sebastianb.boids;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

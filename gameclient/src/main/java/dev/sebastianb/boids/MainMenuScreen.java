@@ -1,4 +1,4 @@
-package io.github.some_example_name;
+package dev.sebastianb.boids;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

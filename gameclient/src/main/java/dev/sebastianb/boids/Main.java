@@ -7,6 +7,6 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Game Client Starting...");
         var config = RenderUtils.getDefaultConfiguration();
-        new Lwjgl3Application(new GameClient(), config);
+        new Lwjgl3Application(new Frog(), config);
     }
 }
