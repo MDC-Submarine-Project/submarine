@@ -17,7 +17,7 @@ public class ServerMain {
         int maxRetries = 30; // Try for about 30 seconds
         int retryCount = 0;
 
-        while (!initialized && retryCount < maxRetries) {
+        while (!initialized) {
             try {
                 System.out.println("Attempting to initialize server on port " + Constants.DEFAULT_PORT + 
                                   " (Attempt " + (retryCount + 1) + " of " + maxRetries + ")");
