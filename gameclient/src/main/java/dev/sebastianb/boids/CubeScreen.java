@@ -38,6 +38,11 @@ public class CubeScreen implements Screen {
     private ModelInstance cubeInstance, floorInstance;
     private btDiscreteDynamicsWorld dynamicsWorld;
     private btRigidBody cubeBody, floorBody;
+    private btDefaultCollisionConfiguration collisionConfig;
+    private btCollisionDispatcher dispatcher;
+    private btDbvtBroadphase broadphase;
+    private btSequentialImpulseConstraintSolver solver;
+    private btCollisionShape floorShape, cubeShape;
 
     private Stage stage;
     private Skin skin;
@@ -82,21 +87,21 @@ public class CubeScreen implements Screen {
         floorInstance.transform.setToTranslation(0f, -50f, 0f);
 
         // Physics setup
-        btDefaultCollisionConfiguration config = new btDefaultCollisionConfiguration();
-        btCollisionDispatcher dispatcher = new btCollisionDispatcher(config);
-        btDbvtBroadphase broadphase = new btDbvtBroadphase();
-        btSequentialImpulseConstraintSolver solver = new btSequentialImpulseConstraintSolver();
-        dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, config);
+        collisionConfig = new btDefaultCollisionConfiguration();
+        dispatcher = new btCollisionDispatcher(collisionConfig);
+        broadphase = new btDbvtBroadphase();
+        solver = new btSequentialImpulseConstraintSolver();
+        dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
         dynamicsWorld.setGravity(new Vector3(0, -10f, 0));
 
         // Floor body
-        btCollisionShape floorShape = new btBoxShape(new Vector3(50f, 0.5f, 50f));
+        floorShape = new btBoxShape(new Vector3(50f, 0.5f, 50f));
         floorBody = new btRigidBody(0f, null, floorShape);
         floorBody.setWorldTransform(floorInstance.transform);
         dynamicsWorld.addRigidBody(floorBody);
 
         // Cube body
-        btCollisionShape cubeShape = new btBoxShape(new Vector3(0.5f, 0.5f, 0.5f));
+        cubeShape = new btBoxShape(new Vector3(0.5f, 0.5f, 0.5f));
         Vector3 inertia = new Vector3();
         cubeShape.calculateLocalInertia(1f, inertia);
         btRigidBody.btRigidBodyConstructionInfo cubeInfo =
@@ -271,8 +276,27 @@ public class CubeScreen implements Screen {
         modelBatch.dispose();
         cubeModel.dispose();
         floorModel.dispose();
-        cubeBody.dispose();
-        floorBody.dispose();
-        dynamicsWorld.dispose();
+
+        // Dispose of Bullet physics objects in the correct order
+        // First remove rigid bodies from the dynamics world
+        if (dynamicsWorld != null) {
+            if (cubeBody != null) dynamicsWorld.removeRigidBody(cubeBody);
+            if (floorBody != null) dynamicsWorld.removeRigidBody(floorBody);
+        }
+
+        // Dispose of rigid bodies
+        if (cubeBody != null) cubeBody.dispose();
+        if (floorBody != null) floorBody.dispose();
+
+        // Dispose of collision shapes
+        if (cubeShape != null) cubeShape.dispose();
+        if (floorShape != null) floorShape.dispose();
+
+        // Dispose of dynamics world and related objects
+        if (dynamicsWorld != null) dynamicsWorld.dispose();
+        if (solver != null) solver.dispose();
+        if (broadphase != null) broadphase.dispose();
+        if (dispatcher != null) dispatcher.dispose();
+        if (collisionConfig != null) collisionConfig.dispose();
     }
 }
