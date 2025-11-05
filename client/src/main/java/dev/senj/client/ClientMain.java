@@ -13,31 +13,43 @@ public class ClientMain {
 
         ObjectListener objectListener = ObjectListener.getInstance();
 
-        // Initialize the network as a client with retries
+        // Try to initialize as a server first, then as a client if server initialization fails
         boolean connected = false;
         int maxRetries = 30; // Try for about 30 seconds
         int retryCount = 0;
 
-        while (!connected && retryCount < maxRetries) {
-            try {
-                System.out.println("Attempting to connect to server at " + Constants.DEFAULT_HOST + ":" + Constants.DEFAULT_PORT + 
-                                  " (Attempt " + (retryCount + 1) + " of " + maxRetries + ")");
-                objectListener.initializeAsClient(Constants.DEFAULT_HOST, Constants.DEFAULT_PORT);
-                connected = true;
-                System.out.println("Successfully connected to server!");
-            } catch (IOException e) {
-                retryCount++;
-                if (retryCount >= maxRetries) {
-                    System.err.println("Failed to initialize network after " + maxRetries + " attempts: " + e.getMessage());
-                    return;
-                }
-                System.out.println("Connection attempt failed. Retrying in 1 second...");
+        // First try to initialize as a server
+        try {
+            System.out.println("Attempting to initialize as a server on port " + Constants.DEFAULT_PORT);
+            objectListener.initializeAsServer(Constants.DEFAULT_PORT);
+            connected = true;
+            System.out.println("Successfully initialized as a server!");
+        } catch (IOException e) {
+            System.out.println("Failed to initialize as a server: " + e.getMessage());
+            System.out.println("Trying to connect as a client instead...");
+
+            // If server initialization fails, try to connect as a client with retries
+            while (!connected) {
                 try {
-                    Thread.sleep(1000); // Wait 1 second before retrying
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                    System.err.println("Retry interrupted: " + ie.getMessage());
-                    return;
+                    System.out.println("Attempting to connect to server at " + Constants.DEFAULT_HOST + ":" + Constants.DEFAULT_PORT +
+                                      " (Attempt " + (retryCount + 1) + " of " + maxRetries + ")");
+                    objectListener.initializeAsClient(Constants.DEFAULT_HOST, Constants.DEFAULT_PORT);
+                    connected = true;
+                    System.out.println("Successfully connected to server as a client!");
+                } catch (IOException ex) {
+                    retryCount++;
+                    if (retryCount >= maxRetries) {
+                        System.err.println("Failed to initialize network after " + maxRetries + " attempts: " + ex.getMessage());
+                        return;
+                    }
+                    System.out.println("Connection attempt failed. Retrying in 1 second...");
+                    try {
+                        Thread.sleep(1000); // Wait 1 second before retrying
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        System.err.println("Retry interrupted: " + ie.getMessage());
+                        return;
+                    }
                 }
             }
         }

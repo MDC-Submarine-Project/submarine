@@ -23,6 +23,29 @@ public class ObjectListener {
     private final ConcurrentHashMap<String, DestinationMapping> idIndex = new ConcurrentHashMap<>();
     // Last known state signature per mapping to detect changes across checks
     private final ConcurrentHashMap<DestinationMapping, Integer> lastStateSignatures = new ConcurrentHashMap<>();
+    // Track connection failures for each mapping
+    private final ConcurrentHashMap<DestinationMapping, Boolean> connectionFailures = new ConcurrentHashMap<>();
+
+    /**
+     * Class to hold an object and its connection status
+     */
+    public static class ObjectWithStatus<T> {
+        private final T object;
+        private boolean lastAttemptFailed;
+
+        public ObjectWithStatus(T object, boolean lastAttemptFailed) {
+            this.object = object;
+            this.lastAttemptFailed = lastAttemptFailed;
+        }
+
+        public T getObject() {
+            return object;
+        }
+
+        public boolean didLastAttemptFail() {
+            return lastAttemptFailed;
+        }
+    }
 
     private volatile boolean running = false;
     private Thread listenerThread;
@@ -93,8 +116,12 @@ public class ObjectListener {
 
                 networkManager.transmit(baos.toByteArray());
                 System.out.println("[ObjectListener] Sent object over network with id=" + mapping.getId() + ": " + value);
+                // Mark this mapping as successful
+                connectionFailures.put(mapping, false);
             } catch (IOException e) {
                 System.err.println("[ObjectListener] Error sending object over network: " + e.getMessage());
+                // Mark this mapping as failed
+                connectionFailures.put(mapping, true);
             }
         }
     }
@@ -300,6 +327,40 @@ public class ObjectListener {
         idIndex.put(mapping.getId(), mapping);
         // Initialize its signature so that the first detection occurs on actual change
         lastStateSignatures.put(mapping, computeStateSignature(obj));
+        // Initialize connection status as failed
+        connectionFailures.put(mapping, true);
+    }
+
+    /**
+     * Retrieves an object with its connection status.
+     * @param mapping The mapping to retrieve
+     * @param <T> The type of the object
+     * @return An ObjectWithStatus containing the object and whether the last attempt failed
+     */
+    @SuppressWarnings("unchecked")
+    public <T> ObjectWithStatus<T> getWithStatus(DestinationMapping mapping) {
+        Object obj = objectMapping.get(mapping);
+        if (obj == null) {
+            return null;
+        }
+
+        Boolean failed = connectionFailures.getOrDefault(mapping, true);
+        return new ObjectWithStatus<>((T) obj, failed);
+    }
+
+    /**
+     * Retrieves an object with its connection status by ID.
+     * @param id The ID of the mapping to retrieve
+     * @param <T> The type of the object
+     * @return An ObjectWithStatus containing the object and whether the last attempt failed
+     */
+    public <T> ObjectWithStatus<T> getWithStatus(String id) {
+        DestinationMapping mapping = idIndex.get(id);
+        if (mapping == null) {
+            return null;
+        }
+
+        return getWithStatus(mapping);
     }
 
     /**

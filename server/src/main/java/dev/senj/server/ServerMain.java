@@ -6,6 +6,7 @@ import dev.senj.common.Position;
 import dev.senj.common.Utils;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class ServerMain {
     public static void main(String[] args) {
@@ -47,6 +48,48 @@ public class ServerMain {
         }));
 
         objectListener.start();
+
+        // Test connection and retrieve object with status
+
+        boolean objectListenerInitialized = false;
+        int objectListenerConnectionAttempt = 0;
+        Position mockConnectionTest = new Position();
+        ObjectListener.DestinationMapping testMapping = new ObjectListener.DestinationMapping("testReconnectionDataThatIsReallyBadAndReallyShouldThinkOfABetterWay");
+        objectListener.put(testMapping, mockConnectionTest);
+
+        System.out.println("Testing object stuff");
+        try {
+            while (!objectListenerInitialized) {
+                // Update the position to trigger a network send
+                mockConnectionTest.x = objectListenerConnectionAttempt;
+                objectListenerConnectionAttempt++;
+
+                // Wait a bit for the network operation to complete
+                Thread.sleep(1000);
+
+                // Retrieve the object with its connection status
+                ObjectListener.ObjectWithStatus<Position> objectWithStatus = objectListener.getWithStatus(testMapping);
+
+                if (objectWithStatus != null) {
+                    if (!objectWithStatus.didLastAttemptFail()) {
+                        // Connection successful
+                        System.out.println("Object listener initialized successfully - data synced");
+                        objectListenerInitialized = true;
+                    } else {
+                        // Connection failed
+                        System.out.println("Connection attempt " + objectListenerConnectionAttempt + " failed. Retrying...");
+                    }
+                }
+
+                if (objectListenerConnectionAttempt > 30) {
+                    System.err.println("Failed to initialize object listener after 30 seconds");
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         Position position = Position.getInstance();
 
