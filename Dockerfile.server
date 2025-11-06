@@ -13,8 +13,7 @@ COPY server/build.gradle server/
 COPY common/build.gradle common/
 
 # Make the Gradle wrapper executable
-RUN chmod +x gradlew
-
+RUN sed -i 's/\r$//' gradlew && chmod +x gradlew
 # Copy the source code
 COPY server/src server/src
 COPY common/src common/src
