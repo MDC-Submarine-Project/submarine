@@ -1,2 +1,9 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal() // Tells Gradle to look in the official plugin portal
+        mavenCentral()
+    }
+}
+
 rootProject.name = 'submarine'
 include 'common', 'client', 'server', 'gameclient'

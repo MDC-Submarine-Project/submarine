@@ -1,6 +1,25 @@
 group = 'dev.senj.submarine'
 version = '1.0-SNAPSHOT'
 
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+    }
+}
+
+allprojects {
+    apply plugin: 'idea'
+    version = '0.0.1'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+
 subprojects {
     apply plugin: 'java'
 
@@ -22,6 +41,10 @@ subprojects {
     test {
         useJUnitPlatform()
     }
+}
+
+repositories {
+    mavenCentral()
 }
 
 // Root-level task to start both client and server applications
