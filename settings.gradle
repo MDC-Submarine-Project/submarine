@@ -6,4 +6,4 @@ pluginManagement {
 }
 
 rootProject.name = 'submarine'
-include 'common', 'client', 'server', 'gameclient'
+include 'common', 'client', 'server', 'gameclient', 'motorlogic'

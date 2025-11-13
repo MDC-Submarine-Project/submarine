@@ -1,0 +1,114 @@
+plugins {
+    id 'base'
+}
+
+// Get Arduino configuration from gradle.properties
+def arduinoBoard = project.findProperty('arduinoBoard') ?: 'arduino:avr:mega'
+def arduinoPort = project.findProperty('arduinoPort') ?: '/dev/ttyACM0'
+def arduinoSketchPath = project.findProperty('arduinoSketchPath') ?: 'motorlogic/motorlogic.ino'
+
+// Define build directory for Arduino output
+def buildDir = "${project.projectDir}/build"
+
+// Task to install Arduino AVR core
+task installArduinoCore(type: Exec) {
+    description = 'Install Arduino AVR core using arduino-cli'
+    group = 'Arduino'
+
+    commandLine 'arduino-cli', 'core', 'install', 'arduino:avr'
+
+    // Log the command being executed
+    doFirst {
+        println "Installing Arduino AVR core: ${commandLine.join(' ')}"
+    }
+}
+
+// Task to install Servo library
+task installServoLibrary(type: Exec) {
+    description = 'Install Servo library using arduino-cli'
+    group = 'Arduino'
+
+    commandLine 'arduino-cli', 'lib', 'install', 'Servo'
+
+    // Log the command being executed
+    doFirst {
+        println "Installing Servo library: ${commandLine.join(' ')}"
+    }
+}
+
+// Task to compile Arduino sketch
+task compileArduino(type: Exec) {
+    description = 'Compile Arduino sketch using arduino-cli'
+    group = 'Arduino'
+
+    // This task depends on the core installation and library installation tasks
+    dependsOn installArduinoCore, installServoLibrary
+
+    // Create build directory if it doesn't exist
+    doFirst {
+        mkdir buildDir
+    }
+
+    // Command to compile Arduino sketch
+    commandLine 'arduino-cli', 'compile', 
+                '--fqbn', arduinoBoard, 
+                '--output-dir', buildDir,
+                arduinoSketchPath
+
+    // Log the command being executed
+    doFirst {
+        println "Compiling Arduino sketch: ${commandLine.join(' ')}"
+    }
+}
+
+// Task to upload Arduino sketch to board
+task uploadArduino(type: Exec) {
+    description = 'Upload Arduino sketch to board using arduino-cli'
+    group = 'Arduino'
+
+    // This task depends on the compile task
+    dependsOn compileArduino
+
+    // Command to upload Arduino sketch
+    commandLine 'arduino-cli', 'upload',
+                '--fqbn', arduinoBoard,
+                '--port', arduinoPort,
+                '--input-dir', buildDir,
+                arduinoSketchPath
+
+    // Log the command being executed
+    doFirst {
+        println "Uploading Arduino sketch: ${commandLine.join(' ')}"
+    }
+}
+
+// Update wokwi.toml with the correct paths to the compiled firmware
+task updateWokwiConfig {
+    description = 'Update wokwi.toml with the correct paths to the compiled firmware'
+    group = 'Arduino'
+
+    dependsOn compileArduino
+
+    doLast {
+        def wokwiFile = file("${project.projectDir}/wokwi.toml")
+        def sketchName = file(arduinoSketchPath).name.replace('.ino', '')
+        def hexFile = "${buildDir}/${sketchName}.ino.hex"
+        def elfFile = "${buildDir}/${sketchName}.ino.elf"
+
+        def wokwiContent = """
+            # Wokwi configuration
+            [wokwi]
+            version = 1
+            firmware = '${hexFile}'
+            elf = '${elfFile}'
+         """
+
+        wokwiFile.text = wokwiContent
+        println "Updated wokwi.toml with paths to compiled firmware"
+    }
+}
+
+// Clean task to remove build directory
+clean {
+    delete buildDir
+}
