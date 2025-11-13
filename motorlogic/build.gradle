@@ -2,10 +2,7 @@ plugins {
     id 'base'
 }
 
-// Get Arduino configuration from gradle.properties
-def arduinoBoard = project.findProperty('arduinoBoard') ?: 'arduino:avr:mega'
-def arduinoPort = project.findProperty('arduinoPort') ?: '/dev/ttyACM0'
-def arduinoSketchPath = project.findProperty('arduinoSketchPath') ?: 'motorlogic/motorlogic.ino'
+// Arduino configuration is defined in gradle.properties
 
 // Define build directory for Arduino output
 def buildDir = "${project.projectDir}/build"
@@ -51,9 +48,9 @@ task compileArduino(type: Exec) {
 
     // Command to compile Arduino sketch
     commandLine 'arduino-cli', 'compile', 
-                '--fqbn', arduinoBoard, 
+                '--fqbn', project.arduinoBoard, 
                 '--output-dir', buildDir,
-                arduinoSketchPath
+                "${project.projectDir}/${project.arduinoSketchPath}"
 
     // Log the command being executed
     doFirst {
@@ -71,10 +68,10 @@ task uploadArduino(type: Exec) {
 
     // Command to upload Arduino sketch
     commandLine 'arduino-cli', 'upload',
-                '--fqbn', arduinoBoard,
-                '--port', arduinoPort,
+                '--fqbn', project.arduinoBoard,
+                '--port', project.arduinoPort,
                 '--input-dir', buildDir,
-                arduinoSketchPath
+                "${project.projectDir}/${project.arduinoSketchPath}"
 
     // Log the command being executed
     doFirst {
@@ -91,7 +88,7 @@ task updateWokwiConfig {
 
     doLast {
         def wokwiFile = file("${project.projectDir}/wokwi.toml")
-        def sketchName = file(arduinoSketchPath).name.replace('.ino', '')
+        def sketchName = file("${project.projectDir}/${project.arduinoSketchPath}").name.replace('.ino', '')
         def hexFile = "${buildDir}/${sketchName}.ino.hex"
         def elfFile = "${buildDir}/${sketchName}.ino.elf"
 
